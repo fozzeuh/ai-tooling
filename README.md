@@ -6,14 +6,15 @@ This repository contains agents and skills for use with OpenCode. It contains no
 
 - **Agents** in [`.opencode/agents/`](.opencode/agents/):
   - [`coordinateur`](.opencode/agents/coordinateur.md), the primary agent (`primary`) and entry point that plans and coordinates specialists. It uses GitHub Copilot models, which must be available and configured in OpenCode.
-  - [`architecte`](.opencode/agents/architecte.md), the architect, designs solutions and analyzes their contracts and risks;
+  - [`po`](.opencode/agents/po.md), the Product Owner, clarifies product needs, scope, scenarios and acceptance criteria;
+  - [`architecte`](.opencode/agents/architecte.md), the architect, produces technical specifications and analyzes contracts, domain decisions and risks;
   - [`developpeur`](.opencode/agents/developpeur.md), the developer, implements assigned changes;
   - [`testeur`](.opencode/agents/testeur.md), the tester, defines and writes tests;
   - [`reviewer`](.opencode/agents/reviewer.md), the reviewer, performs independent, read-only reviews;
   - [`documentaliste`](.opencode/agents/documentaliste.md), the documentarian, maintains documentation.
 
-  The latter five are subagents (`subagent`). The agent files retain their V1 `permission` frontmatter, which is now deprecated in the OpenCode V2 documentation; they have not been modernized.
-- **Skills** in [`.opencode/skills/`](.opencode/skills/): [`ub-mode`](.opencode/skills/ub-mode/SKILL.md), a step-by-step workflow, and [`solid`](.opencode/skills/solid/SKILL.md), software engineering principles and references. The `solid` references are in [`.opencode/skills/solid/references/`](.opencode/skills/solid/references/).
+  The Product Owner, Architect, Developer, Tester, Reviewer and Documentation specialist are subagents (`subagent`); the Coordinator is primary. The Coordinator, Product Owner and Architect use V2 `permissions` frontmatter. The Developer, Tester, Reviewer and Documentation specialist retain V1 `permission` frontmatter, which is deprecated in OpenCode V2 and has not been modernized.
+- **Skills** in [`.opencode/skills/`](.opencode/skills/): [`ub-mode`](.opencode/skills/ub-mode/SKILL.md), [`solid`](.opencode/skills/solid/SKILL.md), [`grill-me`](.opencode/skills/mattpocock/grill-me/SKILL.md), [`grill-with-docs`](.opencode/skills/mattpocock/grill-with-docs/SKILL.md), and their supporting [`grilling`](.opencode/skills/mattpocock/grilling/SKILL.md) and [`domain-modeling`](.opencode/skills/mattpocock/domain-modeling/SKILL.md) skills. The `solid` references are in [`.opencode/skills/solid/references/`](.opencode/skills/solid/references/); adapted Matt Pocock skill provenance and license are in [`.opencode/skills/mattpocock/`](.opencode/skills/mattpocock/).
 
 ## Using the resources with OpenCode
 
@@ -21,7 +22,7 @@ OpenCode discovers project agents in `.opencode/agents/<id>.md` and project skil
 
 To use them in another project, copy the `.opencode/` directory there. If files with the same names already exist, inspect them and merge the configurations rather than blindly overwriting them. Optional global installation is possible in `~/.config/opencode/agents/` and `~/.config/opencode/skills/`.
 
-Explicitly invoke a skill in a request, for example `@ub-mode` or `@solid`. The presence of the `ub-mode` skill does not by itself create a `/ub-mode` command.
+Explicitly invoke a skill in a request, for example `@ub-mode`, `@solid`, `@grill-me` or `@grill-with-docs`. The presence of a skill does not by itself create a slash command.
 
 ## `ub-mode` .NET tools
 
