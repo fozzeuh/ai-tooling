@@ -24,6 +24,8 @@ To use them in another project, copy the `.opencode/` directory there. If files 
 
 Explicitly invoke a skill in a request, for example `@ub-mode`, `@solid`, `@grill-me` or `@grill-with-docs`. The presence of a skill does not by itself create a slash command.
 
+For substantial multi-agent work, the Coordinator can use temporary **internal work tickets**: the PO drafts product outcomes and acceptance criteria, the Architect refines them into technical slices and dependencies, and the Coordinator assigns one ticket to each Developer. These tickets stay in the conversation/context by default; they are not published as issues or persisted unless the user asks. The final ticket map and delivery results can inform documentation, which should describe shipped behavior rather than copy a plan verbatim.
+
 ## `ub-mode` .NET tools
 
 Installing the OpenCode resources above is separate from installing .NET CLI tools. Install .NET tools in the environment or .NET project that uses them, not in this repository. Check the available SDKs and runtimes with `dotnet --info`. Global tools also require the .NET global tools directory to be on `PATH` ([Microsoft documentation](https://learn.microsoft.com/en-us/dotnet/core/tools/global-tools)). OpenCode does not install these tools automatically.
