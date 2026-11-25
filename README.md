@@ -13,7 +13,7 @@ This repository contains agents and skills for use with OpenCode. It contains no
   - [`reviewer`](.opencode/agents/reviewer.md), the reviewer, performs independent, read-only reviews;
   - [`documentaliste`](.opencode/agents/documentaliste.md), the documentarian, maintains documentation.
 
-  The Product Owner, Architect, Developer, Tester, Reviewer and Documentation specialist are subagents (`subagent`); the Coordinator is primary. The Coordinator, Product Owner and Architect use V2 `permissions` frontmatter. The Developer, Tester, Reviewer and Documentation specialist retain V1 `permission` frontmatter, which is deprecated in OpenCode V2 and has not been modernized.
+  The Coordinator is the primary agent (`primary`); the Product Owner, Architect, Developer, Tester, Reviewer and Documentation specialist use `all`: they can run either as subagents delegated by the Coordinator or directly as primary agents. All seven agents use V2 `permissions` frontmatter.
 - **Skills** in [`.opencode/skills/`](.opencode/skills/): [`ub-mode`](.opencode/skills/ub-mode/SKILL.md), [`solid`](.opencode/skills/solid/SKILL.md), [`grill-me`](.opencode/skills/mattpocock/grill-me/SKILL.md), [`grill-with-docs`](.opencode/skills/mattpocock/grill-with-docs/SKILL.md), and their supporting [`grilling`](.opencode/skills/mattpocock/grilling/SKILL.md) and [`domain-modeling`](.opencode/skills/mattpocock/domain-modeling/SKILL.md) skills. The `solid` references are in [`.opencode/skills/solid/references/`](.opencode/skills/solid/references/); adapted Matt Pocock skill provenance and license are in [`.opencode/skills/mattpocock/`](.opencode/skills/mattpocock/).
 
 ## Using the resources with OpenCode
@@ -25,6 +25,30 @@ To use them in another project, copy the `.opencode/` directory there. If files 
 Explicitly invoke a skill in a request, for example `@ub-mode`, `@solid`, `@grill-me` or `@grill-with-docs`. The presence of a skill does not by itself create a slash command.
 
 For substantial multi-agent work, the Coordinator can use temporary **internal work tickets**: the PO drafts product outcomes and acceptance criteria, the Architect refines them into technical slices and dependencies, and the Coordinator assigns one ticket to each Developer. These tickets stay in the conversation/context by default; they are not published as issues or persisted unless the user asks. The final ticket map and delivery results can inform documentation, which should describe shipped behavior rather than copy a plan verbatim.
+
+## Invoking agents directly
+
+Every agent can be selected with `--agent <id>` from the CLI. The Coordinator remains the entry point for orchestrated multi-agent work; a specialist called directly handles the request itself and does not delegate.
+
+```sh
+opencode run --agent coordinateur "Prends en charge ce besoin"
+opencode run --agent po "Clarifie ce besoin produit"
+opencode run --agent architecte "Analyse cette proposition technique"
+opencode run --agent developpeur "Implémente cette tâche"
+opencode run --agent testeur "Vérifie cette implémentation"
+opencode run --agent reviewer "Analyse cette MR"
+opencode run --agent documentaliste "Mets à jour la documentation"
+```
+
+Direct calls keep each agent's permissions: `po` and `reviewer` are read-only, `architecte` writes only to explicitly authorized specification, ADR and glossary paths, and every specialist is denied subagent delegation.
+
+To check agent discovery and modes, run from the repository root:
+
+```sh
+opencode debug agents --standalone
+```
+
+The Coordinator must appear as `primary`; the six specialists must appear as `all`.
 
 ## `ub-mode` .NET tools
 
